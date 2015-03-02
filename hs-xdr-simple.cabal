@@ -1,6 +1,6 @@
 name:                hs-xdr-simple
 version:             0.1.1.2
-synopsis:            This script implements a subset of eXternal Data Representation (RFC: 4506)
+synopsis:            A codec module implements a subset of eXternal Data Representation (RFC: 4506)
 description:         A thin wrapper around Data.Binary.Get/Put from binary package, inspired by Python's xdrlib.
 license:             BSD3
 license-file:        LICENSE
