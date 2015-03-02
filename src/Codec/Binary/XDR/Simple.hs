@@ -9,7 +9,7 @@
 
 module Codec.Binary.XDR.Simple where
 
-import           Control.Monad                  (mapM_, replicateM, replicateM_, when)
+import           Control.Monad                  (replicateM, replicateM_, when)
 import           Data.Binary                    (get, put, putWord8)
 import           Data.Binary.IEEE754            (getFloat32be, getFloat64be, putFloat32be, putFloat64be)
 import           Data.Binary.Get                (Get, getLazyByteString, runGet)
@@ -19,10 +19,6 @@ import           Data.Int                       (Int32, Int64)
 import           Data.Word                      (Word32, Word64)
 import qualified Data.Text.Lazy                 as T
 import qualified Data.Text.Lazy.Encoding        as T
-import           Foreign.Marshal.Alloc          (alloca)
-import           Foreign.Ptr                    (castPtr)
-import           Foreign.Storable               (Storable, peek, poke)
-import           System.IO.Unsafe               (unsafePerformIO)
 
 type Pack = Put
 
