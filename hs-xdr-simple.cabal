@@ -1,0 +1,31 @@
+name:                hs-xdr-simple
+version:             0.1.1.2
+synopsis:            This script implements a subset of eXternal Data Representation (RFC: 4506)
+description:         A thin wrapper around Data.Binary.Get/Put from binary package, inspired by Python's xdrlib.
+license:             BSD3
+license-file:        LICENSE
+author:              horus
+maintainer:          horus.li@gmail.com
+category:            Data
+build-type:          Simple
+extra-source-files:  README.markdown,
+                     examples/GangliaMessage.hs
+cabal-version:       >= 1.10
+
+library
+  exposed-modules:     Codec.Binary.XDR.Simple
+
+  other-extensions:    TypeSynonymInstances,
+                       FlexibleInstances,
+                       ScopedTypeVariables,
+                       OverlappingInstances
+
+  build-depends:       base                == 4.*,
+                       bytestring          >= 0.10, 
+                       binary              >= 0.4,
+                       data-binary-ieee754 >= 0.4.3,
+                       text                >= 0.11.2.2
+  
+  hs-source-dirs:      src
+  
+  default-language:    Haskell2010
