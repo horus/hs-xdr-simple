@@ -1,10 +1,12 @@
 # Codec.Binary.XDR.Simple
 
-This script implements a subset of XDR -- eXternal Data Representation (RFC: 4506)
+This codec module implements a subset of XDR -- eXternal Data Representation (RFC: 4506)
 
-A thin wrapper around `Data.Binary.Get`/`Put` from [binary](http://hackage.haskell.org/package/binary) package, inspired by Python's [xdrlib](https://docs.python.org/2/library/xdrlib.html).
+A thin wrapper around `Data.Binary.Get`/`Put` from [binary](http://hackage.haskell.org/package/binary) package, 
+inspired by Python's [xdrlib](https://docs.python.org/2/library/xdrlib.html).
 
-Encoding/decoding of floating-point numbers are from [data-binary-ieee754](http://hackage.haskell.org/package/data-binary-ieee754).
+Encoding/decoding of floating-point numbers are from 
+[data-binary-ieee754](http://hackage.haskell.org/package/data-binary-ieee754).
 
 # A note on string
 
@@ -13,11 +15,12 @@ There are 2 representations of string:
 * plain Haskell string, assuming UTF-8-encoded (see examples);
 * lazy bytestring, for ASCII texts & so-called _opaque data_.
 
-Other strings can always be transformed to/from lazy bytestrings using the proper `encode`/`decode` function pair.    
+Strings in other encodings can always be transformed from/to lazy bytestrings using the proper 
+`encode`/`decode` function pair.
 
 # Examples
 
-Use this module, IMHO, is quite simple (as the name implies).
+Using this module is quite simple (as the name implies).
 
 ## `pack`
 
@@ -30,7 +33,7 @@ Use this module, IMHO, is quite simple (as the name implies).
 * Array of Strings: ["hello", "world"]
 * Array of Doubles: [1.9, 2.2, 3.141592653589793238462643383279502884, 0.0]
 
-Output will be written to file named "test.data"
+Output will be written to "test.data".
 
     testPack :: IO ()
     testPack = LBS.writeFile "test.data" (xdrPack packs)
@@ -76,4 +79,4 @@ Print out the result of `unpack`ing.
 
 ## ...more?
 
-`examples/GangliaMessage.hs`
+See `examples/GangliaMessage.hs`
