@@ -1,19 +1,19 @@
 {-# LANGUAGE FlexibleInstances    #-}
 {-# LANGUAGE ScopedTypeVariables  #-}
 {-# LANGUAGE TypeSynonymInstances #-}
-{-# LANGUAGE OverlappingInstances  #-}
+{-# LANGUAGE OverlappingInstances #-}
 
 -- | This script implements a subset of XDR -- eXternal Data Representation (RFC: 4506)
 --
--- A thin wrapper around @Data.Binary.Get@\/@Put@ from <http://hackage.haskell.org/package/binary binary> package, inspired by Python's <http://docs.python.org/2/library/xdrlib.html xdrlib>.
+-- A thin wrapper around the <http://hackage.haskell.org/package/cereal cereal> package, inspired by Python's <http://docs.python.org/2/library/xdrlib.html xdrlib>.
 
 module Codec.Binary.XDR.Simple where
 
 import           Control.Monad                  (replicateM, replicateM_, when)
-import           Data.Binary                    (get, put, putWord8)
-import           Data.Binary.IEEE754            (getFloat32be, getFloat64be, putFloat32be, putFloat64be)
-import           Data.Binary.Get                (Get, getLazyByteString, runGet)
-import           Data.Binary.Put                (Put, putLazyByteString, runPut)
+import           Data.Serialize                 (get, put)
+import           Data.Serialize.IEEE754         (getFloat32be, getFloat64be, putFloat32be, putFloat64be)
+import           Data.Serialize.Get             (Get, getLazyByteString, runGetLazy)
+import           Data.Serialize.Put             (Put, Putter, putLazyByteString, putWord8, runPutLazy)
 import qualified Data.ByteString.Lazy           as LBS
 import           Data.Int                       (Int32, Int64)
 import           Data.Word                      (Word32, Word64)
@@ -24,7 +24,7 @@ type Pack = Put
 
 -- | Pack all 'pack' sequence, run Put action(s)
 xdrPack :: Pack -> LBS.ByteString
-xdrPack = runPut
+xdrPack = runPutLazy
 
 class XDRpack a where
     -- | Pack a value of type @a@
@@ -33,7 +33,7 @@ class XDRpack a where
     --
     -- * By default, Int32, Int64, Word32, Word64 are 'put' in big-endian (network) order
     -- * 'pack'ing of quadruple-precision floating-point numbers is not implemented
-    pack :: a -> Pack
+    pack :: Putter a
 
 -- | Int(@Int32@) is a 32-bit signed integer, in the range [-2147483648,2147483647]
 instance XDRpack Int32 where
@@ -103,8 +103,8 @@ instance XDRpack a => XDRpack [a] where
 type Unpack = Get
 
 -- | Unpack all 'unpack' sequence, run @Get a@ action(s)
-xdrUnpack :: Unpack a -> LBS.ByteString -> a
-xdrUnpack = runGet
+xdrUnpack :: Unpack a -> LBS.ByteString -> Either String a
+xdrUnpack = runGetLazy
 
 class XDRunpack a where
     -- | Unpack a value of type @a@

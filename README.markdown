@@ -2,11 +2,8 @@
 
 This codec module implements a subset of XDR -- eXternal Data Representation (RFC: 4506)
 
-A thin wrapper around `Data.Binary.Get`/`Put` from [binary](http://hackage.haskell.org/package/binary) package, 
+A thin wrapper around the [cereal](http://hackage.haskell.org/package/cereal) package,
 inspired by Python's [xdrlib](https://docs.python.org/2/library/xdrlib.html).
-
-Encoding/decoding of floating-point numbers are from 
-[data-binary-ieee754](http://hackage.haskell.org/package/data-binary-ieee754).
 
 # A note on string
 
@@ -21,6 +18,8 @@ Strings in other encodings can always be transformed from/to lazy bytestrings us
 # Examples
 
 Using this module is quite simple (as the name implies).
+
+Don't forget to enable the `ScopedTypeVariables` extension.
 
 ## `pack`
 
@@ -56,7 +55,7 @@ Print out the result of `unpack`ing.
     testUnpack :: IO ()
     testUnpack = do
         dat <- LBS.readFile "test.data"
-        let result = xdrUnpack unpacks dat
+        let (Right result) = xdrUnpack unpacks dat
         putStrLn result
         where unpacks = do
                   a :: String   <- unpack
